@@ -11,7 +11,17 @@ class PokemonService {
     if (response.statusCode == SUCCESS) {
       return ResponsePokemons.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to load User');
+      throw Exception('Failed to load Pokemon');
+    }
+  }
+
+  static Future<ResponsePokemons> getLoadMorePokemons(String url) async {
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == SUCCESS) {
+      return ResponsePokemons.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load more');
     }
   }
 }

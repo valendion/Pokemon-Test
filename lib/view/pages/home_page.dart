@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pokemon_app/view/style/theme.dart';
 import 'package:pokemon_app/view/widget/app_loading.dart';
 import 'package:pokemon_app/view/widget/card_pokemon.dart';
@@ -15,8 +14,14 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PokemonsViewModel pokemonViewModel = context.watch<PokemonsViewModel>();
-
+    notificationMessage(pokemonViewModel.message);
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          pokemonViewModel.loadMorePokemons(pokemonViewModel.pokemons.next);
+        },
+        child: const Icon(Icons.add),
+      ),
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -39,11 +44,10 @@ class HomePage extends StatelessWidget {
                   fillColor: backgroundInputColor,
                   prefixIcon: const Icon(Icons.search),
                   border: const OutlineInputBorder(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10))),
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
                   labelText: 'Name'),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             _ui(pokemonViewModel)
@@ -55,12 +59,12 @@ class HomePage extends StatelessWidget {
 
   _ui(PokemonsViewModel pokemonViewModel) {
     if (pokemonViewModel.loading) {
-      return AppLoading();
+      return const AppLoading();
     }
 
     return Expanded(
       child: GridView.builder(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         itemCount: pokemonViewModel.resultPokemon.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             childAspectRatio: 3 / 2,
@@ -70,11 +74,24 @@ class HomePage extends StatelessWidget {
             crossAxisSpacing: 20),
         itemBuilder: (context, index) {
           return CardPokemon(
-              name: '${pokemonViewModel.resultPokemon[index].name}',
+              name: pokemonViewModel.resultPokemon[index].name,
               numberPokemon: int.parse(
                   getNumberImage(pokemonViewModel.resultPokemon[index].url)));
         },
       ),
     );
+  }
+
+  notificationMessage(String? msg) {
+    if (msg != null) {
+      Fluttertoast.showToast(
+          msg: msg,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: whiteColor,
+          textColor: blueColor,
+          fontSize: 16.0);
+    }
   }
 }

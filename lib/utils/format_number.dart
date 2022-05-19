@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 String addDigit(int number) {
   var image = number.toString().padLeft(3, '0');
   return "$image.png";

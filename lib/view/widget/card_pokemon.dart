@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:pokemon_app/utils/format_number.dart';
 import 'package:pokemon_app/view/style/theme.dart';
