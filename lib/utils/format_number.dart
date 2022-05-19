@@ -5,9 +5,8 @@ String addDigit(int number) {
   return "$image.png";
 }
 
-int getNumberImage(String text) {
-  var oldText = text.substring(text.length - 2);
-  var newText = oldText.replaceAll('/', '');
-  log('NewText : $oldText');
-  return int.parse(newText);
+String getNumberImage(String text) {
+  var oldText = text.substring(34);
+  var resultText = oldText.substring(0, oldText.length - 1);
+  return resultText;
 }

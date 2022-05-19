@@ -34,6 +34,7 @@ class HomePage extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             TextFormField(
+              onChanged: (value) => pokemonViewModel.resultData(value),
               decoration: InputDecoration(
                   fillColor: backgroundInputColor,
                   prefixIcon: const Icon(Icons.search),
@@ -60,7 +61,7 @@ class HomePage extends StatelessWidget {
     return Expanded(
       child: GridView.builder(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        itemCount: pokemonViewModel.pokemons.results.length,
+        itemCount: pokemonViewModel.resultPokemon.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             childAspectRatio: 3 / 2,
             crossAxisCount: 2,
@@ -68,10 +69,10 @@ class HomePage extends StatelessWidget {
             mainAxisExtent: 150,
             crossAxisSpacing: 20),
         itemBuilder: (context, index) {
-          log('Number ${addDigit(getNumberImage(pokemonViewModel.pokemons.results[index].url))}');
           return CardPokemon(
-              name: '${pokemonViewModel.pokemons.results[index].name}',
-              numberPokemon: index + 1);
+              name: '${pokemonViewModel.resultPokemon[index].name}',
+              numberPokemon: int.parse(
+                  getNumberImage(pokemonViewModel.resultPokemon[index].url)));
         },
       ),
     );
