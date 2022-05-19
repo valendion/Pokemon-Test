@@ -14,11 +14,12 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PokemonsViewModel pokemonViewModel = context.watch<PokemonsViewModel>();
-    notificationMessage(pokemonViewModel.message);
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           pokemonViewModel.loadMorePokemons(pokemonViewModel.pokemons.next);
+          notificationMessage('Pokemon berhasil ditambahkan');
         },
         child: const Icon(Icons.add),
       ),

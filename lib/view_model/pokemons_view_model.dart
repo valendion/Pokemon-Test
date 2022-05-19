@@ -14,10 +14,8 @@ class PokemonsViewModel extends ChangeNotifier {
 
   List<Pokemon> _resultPokemon = [];
 
-  String? _message;
-
   bool get loading => _loading;
-  String? get message => _message;
+
   ResponsePokemons get pokemons => _pokemons;
   List<Pokemon> get initPokemon => _initPokemons;
   List<Pokemon> get resultPokemon => _resultPokemon;
@@ -38,11 +36,6 @@ class PokemonsViewModel extends ChangeNotifier {
         _resultPokemon.add(value);
       }
     }
-    notifyListeners();
-  }
-
-  _setMessage(String? msg) {
-    _message = msg;
     notifyListeners();
   }
 
@@ -86,7 +79,6 @@ class PokemonsViewModel extends ChangeNotifier {
   void loadMorePokemons(String url) async {
     _setLoading(true);
     ResponsePokemons response = await PokemonService.getLoadMorePokemons(url);
-    _setMessage('Pokemon berhasil ditambahkan');
     setpokemons(response);
     setInitPokemon(response.results);
     setResultPokemon(initPokemon);
