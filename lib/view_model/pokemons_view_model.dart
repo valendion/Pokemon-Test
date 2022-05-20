@@ -6,6 +6,7 @@ import 'network/pokemon_service.dart';
 
 class PokemonsViewModel extends ChangeNotifier {
   bool _loading = false;
+  // int _index = 0;
 
   ResponsePokemons _pokemons =
       ResponsePokemons(count: 0, next: '', results: []);
@@ -18,6 +19,7 @@ class PokemonsViewModel extends ChangeNotifier {
   final List<Pokemon> _resultPokemon = [];
 
   bool get loading => _loading;
+  // int get index => _index;
 
   ResponsePokemons get pokemons => _pokemons;
   ResponseDetailPokemon get responseDetailPokemon => _responseDetailPokemon;
@@ -47,6 +49,11 @@ class PokemonsViewModel extends ChangeNotifier {
     _loading = loading;
     notifyListeners();
   }
+
+  // setIndex(int index) {
+  //   _index = index;
+  //   notifyListeners();
+  // }
 
   _setpokemons(ResponsePokemons pokemons) {
     _pokemons = pokemons;
@@ -105,5 +112,9 @@ class PokemonsViewModel extends ChangeNotifier {
     _setDetailPokemon(response);
 
     _setLoading(false);
+  }
+
+  Pokemon getPokemonIndex(int index) {
+    return Pokemon(name: initPokemon[index].name, url: initPokemon[index].url);
   }
 }
