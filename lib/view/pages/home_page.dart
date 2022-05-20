@@ -22,6 +22,7 @@ class HomePage extends StatelessWidget {
           notificationMessage('Pokemon berhasil ditambahkan');
         },
         child: const Icon(Icons.add),
+        backgroundColor: blueColor,
       ),
       body: SafeArea(
           child: Padding(
@@ -46,7 +47,7 @@ class HomePage extends StatelessWidget {
                   prefixIcon: const Icon(Icons.search),
                   border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10))),
-                  labelText: 'Name'),
+                  labelText: 'Nama Pokemon'),
             ),
             const SizedBox(
               height: 16,
@@ -68,13 +69,14 @@ class HomePage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         itemCount: pokemonViewModel.resultPokemon.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: 3 / 2,
+            // childAspectRatio: 3 / 2,
             crossAxisCount: 2,
             mainAxisSpacing: 20,
-            mainAxisExtent: 150,
+            mainAxisExtent: 170,
             crossAxisSpacing: 20),
         itemBuilder: (context, index) {
           return CardPokemon(
+              index: index,
               name: pokemonViewModel.resultPokemon[index].name,
               numberPokemon: int.parse(
                   getNumberImage(pokemonViewModel.resultPokemon[index].url)));

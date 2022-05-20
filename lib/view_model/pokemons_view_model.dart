@@ -1,22 +1,26 @@
 import 'package:flutter/foundation.dart';
-import 'package:pokemon_app/models/Pokemon.dart';
-import 'package:pokemon_app/models/ResponsePokemons.dart';
-
+import 'package:pokemon_app/models/pokemon.dart';
+import 'package:pokemon_app/models/response_detail_pokemon.dart';
+import 'package:pokemon_app/models/response_pokemons.dart';
 import 'network/pokemon_service.dart';
 
 class PokemonsViewModel extends ChangeNotifier {
   bool _loading = false;
 
   ResponsePokemons _pokemons =
-      ResponsePokemons(count: 0, next: "", results: []);
+      ResponsePokemons(count: 0, next: '', results: []);
 
-  List<Pokemon> _initPokemons = [];
+  ResponseDetailPokemon _responseDetailPokemon =
+      ResponseDetailPokemon(id: 0, name: '', height: 0, weight: 0);
 
-  List<Pokemon> _resultPokemon = [];
+  final List<Pokemon> _initPokemons = [];
+
+  final List<Pokemon> _resultPokemon = [];
 
   bool get loading => _loading;
 
   ResponsePokemons get pokemons => _pokemons;
+  ResponseDetailPokemon get responseDetailPokemon => _responseDetailPokemon;
   List<Pokemon> get initPokemon => _initPokemons;
   List<Pokemon> get resultPokemon => _resultPokemon;
 
@@ -44,8 +48,12 @@ class PokemonsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  setpokemons(ResponsePokemons pokemons) {
+  _setpokemons(ResponsePokemons pokemons) {
     _pokemons = pokemons;
+  }
+
+  _setDetailPokemon(ResponseDetailPokemon detailPokemon) {
+    _responseDetailPokemon = detailPokemon;
   }
 
   PokemonsViewModel() {
@@ -67,9 +75,10 @@ class PokemonsViewModel extends ChangeNotifier {
 
   void getPokemons() async {
     _setLoading(true);
+
     ResponsePokemons response = await PokemonService.getPokemons();
 
-    setpokemons(response);
+    _setpokemons(response);
     setInitPokemon(pokemons.results);
     setResultPokemon(initPokemon);
 
@@ -78,10 +87,23 @@ class PokemonsViewModel extends ChangeNotifier {
 
   void loadMorePokemons(String url) async {
     _setLoading(true);
+
     ResponsePokemons response = await PokemonService.getLoadMorePokemons(url);
-    setpokemons(response);
+
+    _setpokemons(response);
     setInitPokemon(response.results);
     setResultPokemon(initPokemon);
+
+    _setLoading(false);
+  }
+
+  void getDetailPokemon(String url) async {
+    _setLoading(true);
+
+    ResponseDetailPokemon response = await PokemonService.getDetailPokemon(url);
+
+    _setDetailPokemon(response);
+
     _setLoading(false);
   }
 }
